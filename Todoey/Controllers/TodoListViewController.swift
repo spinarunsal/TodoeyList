@@ -9,12 +9,27 @@
 import UIKit
 
 class TodoListViewController: UITableViewController {
-    
-    var itemArray = ["Buy Wet Food", "Buy Milk", "Do Loundry", "Sell Item"]
+    var itemArray = [Item]()
+   /* var itemArray = ["Buy Wet Food", "Buy Milk", "Do Loundry", "Sell Item","a", "b", "c", "d", "e", "f", "g", "h","j", "k", "l", "m", "n", "o", "p", "r"]*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let newItem = Item()
+        newItem.title = "Buy Wet Food"
+        itemArray.append(newItem)
+        
+        let newItem2 = Item()
+        newItem2.title = "Buy Milk"
+        itemArray.append(newItem2)
+        
+        let newItem3 = Item()
+        newItem3.title = "Destroy ShadowMan"
+        itemArray.append(newItem3)
+        
+        
+
     }
 
     //MARK - Tableview DataSource Methods
@@ -24,11 +39,21 @@ class TodoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+       
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItemCell", for: indexPath)
         
-        cell.textLabel?.text = itemArray[indexPath.row]
+        let item = itemArray[indexPath.row]
+        cell.textLabel?.text = item.title
         
+        
+        //Ternary Operator
+        //value = condition ? valueIfTrue : valueFalse
+        cell.accessoryType = item.done ? .checkmark : .none
+//        if item.done == true {
+//            cell.accessoryType = .checkmark
+//        } else {
+//            cell.accessoryType = .none
+//        }
         return cell
     }
     
@@ -37,13 +62,9 @@ class TodoListViewController: UITableViewController {
         //print which cell we selected in the itemArray
         //print(itemArray[indexPath.row])
         
-        //add checkmark to the selected cell
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
+        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
+        tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -58,7 +79,11 @@ class TodoListViewController: UITableViewController {
             //if the text is empty, it's gonna be set to an empty string
             print("Success! I am in action.")
             print(textField.text)
-            self.itemArray.append(textField.text!)
+            
+            let newItem = Item()
+            newItem.title = textField.text!
+            self.itemArray.append(newItem)
+            
             self.tableView.reloadData()
         }
         //Closure - add alert text field

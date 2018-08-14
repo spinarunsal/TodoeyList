@@ -10,7 +10,7 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     var itemArray = [Item]()
-   /* var itemArray = ["Buy Wet Food", "Buy Milk", "Do Loundry", "Sell Item","a", "b", "c", "d", "e", "f", "g", "h","j", "k", "l", "m", "n", "o", "p", "r"]*/
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +28,9 @@ class TodoListViewController: UITableViewController {
         newItem3.title = "Destroy ShadowMan"
         itemArray.append(newItem3)
         
+        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
+            itemArray = items
+        }
         
 
     }
@@ -82,7 +85,7 @@ class TodoListViewController: UITableViewController {
             let newItem = Item()
             newItem.title = textField.text!
             self.itemArray.append(newItem)
-            
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             self.tableView.reloadData()
         }
         

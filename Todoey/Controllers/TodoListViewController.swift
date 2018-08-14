@@ -33,7 +33,7 @@ class TodoListViewController: UITableViewController {
     }
 
     //MARK - Tableview DataSource Methods
-    //create table cells as many as itemArray.count
+    //Create table cells as many as itemArray.count
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
     }
@@ -70,7 +70,6 @@ class TodoListViewController: UITableViewController {
     
     //MARK - Add New Items
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-        
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Todoey List Item", message: "", preferredStyle: .alert)
         
@@ -86,15 +85,15 @@ class TodoListViewController: UITableViewController {
             
             self.tableView.reloadData()
         }
+        
         //Closure - add alert text field
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Create new item"
             textField = alertTextField
-            
         }
         
         alert.addAction(action)
-        //show the alert
+        //Show the alert
         present(alert, animated: true, completion: nil)
     }
 }

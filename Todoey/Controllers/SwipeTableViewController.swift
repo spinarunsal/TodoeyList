@@ -15,6 +15,7 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 78.0
+        tableView.separatorStyle = .none
     }
     
     //TableView Data Source Methods

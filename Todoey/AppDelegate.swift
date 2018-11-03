@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //Gets call as soon as the app loaded up - very first thing
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
        
-        print(Realm.Configuration.defaultConfiguration.fileURL)
-
+        print(Realm.Configuration.defaultConfiguration.fileURL as Any)
+        
         do {
             _ = try Realm()
         } catch {

@@ -18,6 +18,7 @@ class CategoryViewController: SwipeTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.tintColor = UIColor(hexString: "ffffff")
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : FlatWhite()]
         loadCategories()
     }
@@ -92,6 +93,30 @@ class CategoryViewController: SwipeTableViewController {
                 print("Error Deleting Category \(error)")
             }
         }
+    }
+    
+    //MARK: - Edit data from swipe
+    override func editModel(at indexPath: IndexPath) {
+        var task = UITextField()
+        let alert = UIAlertController(title: "Edit Category Name", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Modify", style: .default, handler: { (action) in
+            if let item = self.categories?[indexPath.row]{
+                do {
+                    try self.realm.write {
+                        item.name = "\(task.text ?? "")"
+                    }
+                } catch {
+                    print("Error Updating Item Name: \(error)")
+                }
+            }
+            self.tableView.reloadData()
+        })
+        alert.addTextField { (alertTextField) in
+            task = alertTextField
+            task.placeholder = "New Item Title"
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Add New Categories

@@ -23,7 +23,8 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SwipeTableViewCell
-        
+        //let longPressedGesture = UIGestureRecognizer(target: self, action: #selector(editModel(_:)))
+
         cell.delegate = self
         
         return cell
@@ -33,15 +34,24 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
         
         guard orientation == .right else { return nil }
         
+        /***********************/
+        let editAction = SwipeAction(style: .default, title: "Edit") { (action, indexPath) in
+            print("ediItems")
+            self.editModel(at: indexPath)
+          
+        }
+        
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
 
             //print("Delete Cell")
             self.updateModel(at: indexPath)
         }
+        
+        editAction.image = UIImage(named: "flag-icon")
         // customize the action appearance
         deleteAction.image = UIImage(named: "delete-icon")
         
-        return [deleteAction]
+        return [deleteAction, editAction]
     }
     
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
@@ -50,7 +60,14 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
         return options
     }
     
+    
     func updateModel(at indexPath: IndexPath) {
         //Update data model
+    }
+    
+    /**********************************************************/
+
+    func editModel(at indexPath: IndexPath) {
+        //Edit data model
     }
 }

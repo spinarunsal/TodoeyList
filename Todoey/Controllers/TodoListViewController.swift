@@ -142,8 +142,6 @@ class TodoListViewController: SwipeTableViewController {
     
     //MARK - Model Manupulation Methods
     
-    
-    
     //Read data from CoreData (read in CRUD)
     func loadItems() {
         //all of items belong to current selected category
@@ -162,8 +160,31 @@ class TodoListViewController: SwipeTableViewController {
                 }
         }
     }
+    
+    //MARK: - Edit data from swipe
+    override func editModel(at indexPath: IndexPath) {
+        var task = UITextField()
+        let alert = UIAlertController(title: "Edit Category Name", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Modify", style: .default, handler: { (action) in
+            if let item = self.todoItems?[indexPath.row] {
+                do {
+                    try self.realm.write {
+                        item.title = "\(task.text ?? "")"
+                    }
+                } catch {
+                    print("Error Updating Item Name: \(error)")
+                }
+            }
+            self.tableView.reloadData()
+        })
+        alert.addTextField { (alertTextField) in
+            task = alertTextField
+            task.placeholder = "New Item Title"
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
 }
-
 
 //MARK: - Search bar methods
 
